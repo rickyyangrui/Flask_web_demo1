@@ -111,9 +111,11 @@ def add_answer():
 def search():
     q = request.args.get('q')
     # title, content
-    # 或者
-    questions = Question.query.filter(or_(Question.title.contains(q),
-                                          Question.content.constraints(q))).order_by('-create_time')
+    # 或 查找方式（通过标题和内容来查找）
+    # questions = Question.query.filter(or_(Question.title.contains(q),
+    #                                     Question.content.constraints(q))).order_by('-create_time')
+    # 与 查找（只能通过标题来查找）
+    questions = Question.query.filter(Question.title.contains(q), Question.content.contains(q))
     return render_template('index.html', questions=questions)
 
 
